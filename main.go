@@ -19,6 +19,7 @@ var (
 	debug        = false
 	args []string
     jira_url_fmt = ""
+	sample bool = false
 )
 
 func init() {
@@ -26,8 +27,14 @@ func init() {
 		"($XDG_CONFIG_HOME/jira/jira.ini, $HOME/.jira.ini)"
 	flag.StringVar(&config, "config", "", default_config)
 	flag.BoolVar(&debug, "debug", false, "Debug logging")
+	flag.BoolVar(&sample, "sample", false, "Display sample config")
 	flag.Parse()
 	args = flag.Args()
+
+	if sample {
+		sample_config()
+		os.Exit(0)
+	}
 
 	if (config == "") {
 		// If it's blank, then we go to defaults, in order
